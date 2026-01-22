@@ -4,26 +4,6 @@
     "type": "split",
     "children": [
       {
-        "id": "1d3ecb8305ee47d7",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "5567474fd62f1cd8",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Welcome.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Welcome"
-            }
-          }
-        ]
-      },
-      {
         "id": "d5f6175584039ec0",
         "type": "tabs",
         "children": [
@@ -31,10 +11,14 @@
             "id": "cd6cfd4ffd4ec1d1",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "Home.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Home"
             }
           }
         ]
@@ -110,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Home.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -119,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for Home"
             }
           },
           {
@@ -128,11 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Home.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from Home"
             }
           },
           {
@@ -170,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "create a link.md",
+                "file": "Home.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of create a link"
+              "title": "Outline of Home"
             }
           }
         ]
@@ -200,13 +186,41 @@
   },
   "active": "14ac745e385df6b9",
   "lastOpenFiles": [
+    "QWEN.md",
+    "Home.md",
+    "04_Approved/example-task_20260123023901102695.md",
+    "04_Approved/example-task-plan.md",
+    "02_Needs_Action/example_20260123023407268469_20260123023413782280.md",
+    "01_Inbox/example_20260123023407268469.md",
+    "01_Inbox/example.md",
+    "digital_fte.log",
+    "scripts/utils/__pycache__/metadata.cpython-314.pyc",
+    "scripts/utils/__pycache__/sanitizer.cpython-314.pyc",
+    "scripts/__pycache__/exceptions.cpython-314.pyc",
+    "scripts/utils/__pycache__/file_handler.cpython-314.pyc",
+    "scripts/utils/__pycache__",
+    "scripts/__pycache__/config.cpython-314.pyc",
+    "scripts/__pycache__/watcher.cpython-314.pyc",
+    "scripts/__pycache__",
     "create a link.md",
-    "Welcome.md",
-    "Handbooks",
-    "05_Done",
-    "04_Approved",
-    "03_Pending_Approval",
-    "02_Needs_Action",
-    "01_Inbox"
+    "digital_fte_automation.egg-info/SOURCES.txt",
+    "history/prompts/Digital FTE/6-Digital-FTE-implementation-complete.green.prompt.md",
+    "Handbook.md",
+    "README.md",
+    "history/prompts/Digital FTE/5-Digital-FTE-tasks-generated.tasks.prompt.md",
+    "specs/001-digital-fte-automation/tasks.md",
+    "history/prompts/Digital FTE/4-Digital-FTE-technical-plan.plan.prompt.md",
+    "specs/001-digital-fte-automation/quickstart.md",
+    "specs/001-digital-fte-automation/contracts/filesystem-interface.md",
+    "specs/001-digital-fte-automation/data-model.md",
+    "specs/001-digital-fte-automation/research.md",
+    "specs/001-digital-fte-automation/plan.md",
+    "history/prompts/Digital FTE/3-Digital-FTE-clarification.spec.prompt.md",
+    "history/prompts/Digital FTE/2-Digital-FTE-specification.spec.prompt.md",
+    "specs/001-digital-fte-automation/checklists/requirements.md",
+    "specs/001-digital-fte-automation/spec.md",
+    "history/prompts/constitution/1-Digital-FTE-constitution.constitution.prompt.md",
+    "CLAUDE.md",
+    "Welcome.md"
   ]
 }
