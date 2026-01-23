@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "digital-fte-automation"
 version = "0.1.0"
@@ -11,16 +15,58 @@ requires-python = ">=3.12"
 dependencies = [
     "watchdog>=4.0.0",
     "ruamel-yaml>=0.18.0",
+    "aiohttp>=3.8.0",
+    "asyncio-mqtt>=0.14.0",
+    "python-dotenv>=1.0.0",
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0",
+    "pytest-asyncio>=0.21.0",
     "black>=23.0",
     "flake8>=6.0",
     "mypy>=1.0",
+    "pre-commit>=3.0.0"
+]
+test = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21.0",
+    "coverage>=7.0"
 ]
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["scripts*", "scripts.utils*"]
+include = ["agentic_loop*", "agentic_loop.*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+markers = [
+    "slow: marks tests as slow",
+    "integration: marks tests as integration tests"
+]
+
+[tool.coverage.run]
+source = ["agentic_loop"]
+omit = [
+    "*/tests/*",
+    "*/venv/*",
+    "*/.venv/*",
+    "*/__pycache__/*"
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py312']
+skip-string-normalization = true
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
