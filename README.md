@@ -1,19 +1,21 @@
-# Digital FTE Automation
+# AI Employee Vault - Technical Branding Assistant
 
-Digital FTE (Full-Time Equivalent) system that automates task management through an Obsidian vault using a folder-based state machine. The system includes a Python-based watcher script that monitors the Inbox folder, automatically moves files to Needs Action, and integrates with Obsidian's Dataview plugin for dashboard display.
+AI Employee Vault is an automated system that functions as a Technical Branding Assistant. It takes tech topics from your Inbox, researches them online, and generates professional LinkedIn content along with simplified study guides. The system uses a folder-based state machine to manage the workflow from intake to completion.
 
 ## Features
 
-- Monitors an Inbox folder for new `.txt` or `.md` files
-- Automatically moves files to the appropriate state folder
-- Adds YAML frontmatter metadata to track file status
-- Integrates with Obsidian for dashboard display
-- Implements a Human-in-the-Loop workflow for approvals
+- Automated processing of tech topics from text files
+- Online research using Tavily API for comprehensive information gathering
+- Generation of professional LinkedIn posts from technical subjects
+- Creation of simplified study guides for complex topics
+- Folder-based state machine for workflow management (Inbox → Needs Action → Pending Approval → Approved → Done)
+- Continuous monitoring of the Inbox folder for new tasks
+- YAML frontmatter metadata to track file status and processing state
 
 ## Prerequisites
 
 - Python 3.12 or higher
-- Obsidian installed with Dataview plugin enabled
+- Tavily API key for web research functionality
 - Windows, macOS, or Linux operating system
 
 ## Installation
@@ -21,126 +23,124 @@ Digital FTE (Full-Time Equivalent) system that automates task management through
 1. Clone the repository:
    ```bash
    git clone <repository-url>
-   cd digital-fte-automation
+   cd AI_Employee_Vault
    ```
 
-2. Install uv (if not already installed):
+2. Install dependencies:
    ```bash
-   # On Windows
-   pip install uv
-   
-   # On macOS/Linux
-   curl -LsSf https://astral.sh/uv/install.sh | sh
+   pip install -e .
    ```
 
-3. Set up the project environment:
-   ```bash
-   # Create a virtual environment and install dependencies
-   uv venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   
-   # Install project dependencies
-   uv pip install -e .
+3. Set up the project structure:
+   The following folder structure is used for the state machine:
    ```
-
-4. Set up the Obsidian Vault Structure:
-   Create the following folder structure in your Obsidian vault:
-   ```
-   vault-root/
-   ├── 01_Inbox/
-   ├── 02_Needs_Action/
-   ├── 03_Pending_Approval/
-   ├── 04_Approved/
-   ├── 05_Done/
-   ├── Home.md
-   └── Handbook.md
+   AI_Employee_Vault/
+   ├── 01_Inbox/           # New files placed here for processing
+   ├── 02_Needs_Action/    # Files awaiting AI processing
+   ├── 03_Pending_Approval/ # Files completed by AI, awaiting human review
+   ├── 04_Approved/        # Files approved by human reviewer
+   ├── 05_Done/            # Completed files
+   ├── Home.md             # Dashboard for monitoring tasks
+   └── Handbook.md         # Processing guidelines for the AI
    ```
 
 ## Configuration
 
-1. Configure the Watcher Script:
-   Edit the `config.py` file to set the correct paths:
-   ```python
-   # Path to your Obsidian vault
-   VAULT_PATH = "/path/to/your/obsidian/vault"
-   
-   # Folder names (can be customized if needed)
-   INBOX_FOLDER = "01_Inbox"
-   NEEDS_ACTION_FOLDER = "02_Needs_Action"
-   PENDING_APPROVAL_FOLDER = "03_Pending_Approval"
-   APPROVED_FOLDER = "04_Approved"
-   DONE_FOLDER = "05_Done"
+1. Set up your API key:
+   Create a `.env` file in the root directory with your Tavily API key:
+   ```
+   TAVILY_API_KEY=your_tavily_api_key_here
    ```
 
-2. Set up the Dashboard:
-   Add the following Dataview query to your `Home.md` file to display tasks:
-   ```javascript
-   ## Tasks Needing Action
-   TABLE created AS "Created Date"
-   FROM "02_Needs_Action"
-   WHERE status = "needs-action"
-   SORT created DESC
-
-   ## Tasks Pending Approval
-   TABLE created AS "Created Date"
-   FROM "03_Pending_Approval"
-   WHERE status = "pending-approval"
-   SORT created DESC
+2. Configure the system paths:
+   Edit the `scripts/config.py` file to set the correct paths if needed:
+   ```python
+   # Path to your project directory (default is current directory)
+   VAULT_PATH = "path/to/your/AI_Employee_Vault"
    ```
 
 ## Usage
 
-1. Starting the Watcher:
-   Run the watcher script to begin monitoring the Inbox folder:
-   ```bash
-   python scripts/watcher.py
-   ```
-   The script will continuously monitor the `01_Inbox` folder for new `.txt` or `.md` files.
+There are multiple ways to run the system:
 
-2. Submitting a Task:
-   To submit a task to the Digital FTE:
-   1. Create a new `.txt` or `.md` file
-   2. Place it in the `01_Inbox` folder in your Obsidian vault
-   3. The system will automatically:
-      - Sanitize the filename
-      - Add YAML frontmatter with metadata
-      - Move the file to `02_Needs_Action`
+### Option 1: Separate Processes (Recommended for development)
+1. Start the file watcher in one terminal:
+   ```bash
+   python -m scripts.watcher
+   ```
+   This monitors the `01_Inbox` folder and moves new `.txt` or `.md` files to `02_Needs_Action`.
+
+2. Start the AI agent in another terminal:
+   ```bash
+   python run_agent.py
+   ```
+   This processes files in the `02_Needs_Action` folder, performs research, and creates content.
+
+### Option 2: Combined Runner
+Run both the watcher and agent in a single process:
+```bash
+python combined_runner.py
+```
+
+### Option 3: Demo Mode
+Run a demonstration of the workflow:
+```bash
+python demo_agent.py
+```
 
 ## Example Workflow
 
-1. User creates `meeting-notes.txt` with meeting details
+1. User creates `Next.js 15 features.txt` with a tech topic
 2. User places file in `01_Inbox`
 3. Watcher detects file and moves it to `02_Needs_Action` with metadata:
    ```yaml
    ---
    id: task-12345
    status: needs-action
-   created: 2026-01-23T10:00:00
-   updated: 2026-01-23T10:00:00
+   created: 2026-02-08T10:00:00
+   updated: 2026-02-08T10:00:00
    ---
    ```
-4. AI processes the meeting notes
-5. AI updates status to `pending-approval` and moves to `03_Pending_Approval`
-6. User reviews the processed notes on the dashboard
-7. User moves file to `04_Approved`
-8. System finalizes and moves to `05_Done`
+4. AI agent processes the file, researches "Next.js 15 features" online
+5. AI generates:
+   - A professional LinkedIn post about Next.js 15 features
+   - A simplified study guide explaining the concepts
+6. AI updates status to `pending-approval` and moves to `03_Pending_Approval`
+7. Human reviewer approves the generated content
+8. User moves file to `04_Approved`
+9. System finalizes and moves to `05_Done`
+
+## Components
+
+- `scripts/watcher.py`: Monitors the Inbox and moves files between folders based on state
+- `scripts/agent_logic.py`: Main AI processing logic for researching topics and generating content
+- `scripts/tools/web_search.py`: Handles web search functionality using Tavily API
+- `run_agent.py`: Runs the AI agent to process files in Needs Action folder
+- `combined_runner.py`: Runs both watcher and agent in a single process
+- `demo_agent.py`: Demonstrates the workflow for testing purposes
+- `Handbook.md`: Contains processing guidelines for the AI employee
+- `Home.md`: Dashboard for monitoring active tasks
 
 ## Troubleshooting
 
-### Watcher Not Responding
-- Ensure the script is running: `python scripts/watcher.py`
-- Check that the vault path in `config.py` is correct
-- Verify that the `01_Inbox` folder exists
+### API Key Issues
+- Ensure your Tavily API key is correctly set in the `.env` file
+- Verify that your API key has sufficient quota for web searches
 
-### Files Not Appearing on Dashboard
-- Ensure the Dataview plugin is enabled in Obsidian
-- Check that the YAML frontmatter is correctly formatted
-- Verify that the Dataview query in `Home.md` is correct
+### Files Not Being Processed
+- Check that both the watcher and agent are running
+- Verify that the file extension is `.txt` or `.md`
+- Ensure the file is not too large (maximum 10MB)
+
+### Agent Not Responding
+- Check that the agent script is running: `python run_agent.py`
+- Look at the log file (`digital_fte.log`) for error messages
+- Verify that your internet connection is working for web searches
 
 ### Permission Errors
-- Ensure the script has read/write access to the vault directory
+- Ensure the script has read/write access to all project directories
 - On some systems, you may need to run the script with elevated privileges
 
 ## Stopping the Service
 
-To stop the watcher service, press `Ctrl+C` in the terminal where it's running.
+To stop the watcher or agent service, press `Ctrl+C` in the terminal where it's running.
