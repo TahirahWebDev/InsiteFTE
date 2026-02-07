@@ -52,3 +52,6 @@ INVALID_CHARS = '<>:"|?*'
 
 # Log file path
 LOG_FILE = "digital_fte.log"
+
+# API Keys and External Services
+TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
